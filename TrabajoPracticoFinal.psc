@@ -24,10 +24,16 @@ Proceso TrabajoPracticoFinal
                 CargarReserva(reserva)
             2:
                 Escribir 'BuscarReserva()'
+				//La idea va a ser buscar las reservas realizadas por nombre de cliente, y que muestren los datos de ellas.
             3:
-                Escribir 'VerReservas()'
+                Escribir 'ordenarReservas()'
+				// ordenar por fecha de salida? de entrada? Cant_Huespedes?
             4:
 				Escribir'MostrarListado()'
+				
+				// mostrar habitaciones disponibles y ocupadas?
+				// mostrar las reservas ordenadas?
+				
             5:
                 Escribir "Saliendo del sistema..."
             De Otro Modo:
