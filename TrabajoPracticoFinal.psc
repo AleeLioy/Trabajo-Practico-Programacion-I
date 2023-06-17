@@ -1,17 +1,21 @@
 Proceso TrabajoPracticoFinal
 	
 	Definir eleccion, habitacion Como Entero
+	Definir estado como logico
 	Definir reserva Como Caracter
-	Dimension reserva[10,6] //Matriz para guardar los datos de la reserva 
+	Dimension reserva[10,6]//Matriz para guardar los datos de la reserva 
 	//(10 SOLAMENTE POR COMODIDAD, CAMBIAR A UN VALOR MAS ALTO YA QUE SON LAS HABITACIONES)
 	//tmb hay q validar que al ingresar reservar no pueden ser mayor a 10(En este caso)
 	//Datos para cargar: 
+	Dimension estado[10]
+	
 	reserva[0,0] = ("Número de habitación")
 	reserva[0,1] = ("Nombre y apellido")
 	reserva[0,2] = ("Check In")
 	reserva[0,3] = ("Check Out")
 	reserva[0,4] = ("Cantidad de huéspedes")
 	reserva[0,5] = ("Tipo de habitación")
+	
 	habitacion = 0
 	
 	Mientras eleccion <> 5 Hacer
@@ -26,15 +30,16 @@ Proceso TrabajoPracticoFinal
 		
 		Segun eleccion Hacer
             1:
-                CargarReserva(reserva,habitacion)
+                CargarReserva(reserva,habitacion, estado)
+				
             2:
                 Escribir 'BuscarReserva()'
 				//La idea va a ser buscar las reservas realizadas por nombre de cliente, y que muestren los datos de ellas.
             3:
                 Escribir 'ordenarReservas()'
-				// ordenar por fecha de salida? de entrada? Cant_Huespedes?
+				// ordenar por cantidad de huespedes y por nombre y apellido
             4:
-				MostrarListado(reserva)
+				MostrarListado(reserva, estado, habitacion)
 				
 				// mostrar habitaciones disponibles y ocupadas?
 				// mostrar las reservas ordenadas?
@@ -50,7 +55,7 @@ Proceso TrabajoPracticoFinal
 FinProceso
 
 
-SubProceso CargarReserva(reserva, habitacion Por Referencia)
+SubProceso CargarReserva(reserva, habitacion Por Referencia, estado)
 	Definir nombre, check_in, check_out, tipo_habitacion Como Caracter
 	Definir cant_huespedes Como Entero
 	
@@ -85,6 +90,8 @@ SubProceso CargarReserva(reserva, habitacion Por Referencia)
 	reserva[habitacion, 4] <- ConvertirATexto(cant_huespedes)
 	reserva[habitacion, 5] <- tipo_habitacion
 	
+	estado[habitacion] <- Verdadero
+	
 	Escribir ("Reserva cargada con éxito")
 	Escribir ("A nombre de: "), reserva[habitacion, 1]
 	Escribir ("CHECK-IN: "), reserva[habitacion, 2], (" a las 14:00 hs")
@@ -93,16 +100,27 @@ SubProceso CargarReserva(reserva, habitacion Por Referencia)
 	Escribir ("Tipo de habitacion: "), reserva[habitacion, 5]
 	Escribir ("--------------------")
 	
+	
 FinSubProceso
 
-SubProceso MostrarListado(reserva)
+SubProceso MostrarListado(reserva, estado, habitacion) // Cambiar para segun cantidad de reservas
 	
 	Definir i, j Como Entero
 	
-	Escribir reserva[0, 0], (" "), reserva[0, 1], (" "), reserva[0, 2], (" "), reserva[0, 3], (" "), reserva[0, 4], (" "), reserva[0, 5]
-	Para i = 1 Hasta 9 Con Paso 1 Hacer
+	
+	Para i = 1 Hasta habitacion Con Paso 1 Hacer
 		
-		Escribir reserva[i, 0], ("                    "), reserva[i, 1], ("           "), reserva[i, 2], ("      "), reserva[i, 3], ("                  "), reserva[i, 4], ("          "), reserva[i, 5]
+		Escribir reserva[0, 0], (": ") reserva[i, 0]
+		Escribir reserva[0, 1], (": ") reserva[i, 1]
+		Escribir reserva[0, 2], (": ") reserva[i, 2]
+		Escribir reserva[0, 3], (": ") reserva[i, 3]
+		Escribir reserva[0, 4], (": ") reserva[i, 4]
+		Escribir reserva[0, 5], (": ") reserva[i, 5]
+		Si estado[i] = Verdadero Entonces
+			
+			Escribir "Habitacion ocupada"
+			
+		FinSi
 		Escribir ("-------------------------------------------------------------------------")
 		
 		
