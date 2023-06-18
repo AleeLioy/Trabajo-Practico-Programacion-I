@@ -22,7 +22,7 @@ Proceso TrabajoPracticoFinal
 		Escribir "***** SISTEMA DE GESTION DE RESERVAS *****"
         Escribir "1. Ingresar una nueva reserva"
         Escribir "2. Buscar reserva"
-        Escribir "3. Ver reservas"
+        Escribir "3. Ordenar reservas"
         Escribir "4. Mostrar listado de reservas"
         Escribir "5. Salir"
         Escribir Sin Saltar "Seleccione una opción: "
@@ -33,10 +33,10 @@ Proceso TrabajoPracticoFinal
                 CargarReserva(reserva,habitacion, estado)
 				
             2:
-                Escribir 'BuscarReserva()'
+                BuscarReserva(reserva, estado, habitacion)
 				//La idea va a ser buscar las reservas realizadas por nombre de cliente, y que muestren los datos de ellas.
             3:
-                Escribir 'ordenarReservas()'
+				OrdenarReservas(reserva, estado, habitacion)
 				// ordenar por cantidad de huespedes y por nombre y apellido
             4:
 				MostrarListado(reserva, estado, habitacion)
@@ -103,22 +103,73 @@ SubProceso CargarReserva(reserva, habitacion Por Referencia, estado)
 	
 FinSubProceso
 
+SubProceso BuscarReserva(reserva, estado, habitacion Por Referencia)
+	Definir  nombre Como Caracter
+	Definir i Como Entero
+Mostrar "Ingrese el nombre del cliente a buscar: "
+Leer nombre
+Mostrar "Resultados de búsqueda:"
+
+Para i <- 0 Hasta habitacion Con Paso 1 Hacer
+	Si reserva[i, 1] = nombre Entonces
+		Escribir "Cliente: ", reserva[i, 1]
+		Escribir "Fecha de check-in: ", reserva[i, 2]
+		Escribir "Fecha de check-out: ", reserva[i, 3]
+		Escribir "Tipo de habitación: ", reserva[i, 4]
+		Escribir "-----------------------------"
+	FinSi
+FinPara
+FinSubProceso
+
+
+SubProceso OrdenarReservas(reserva, estado, habitacion Por Referencia)
+	Definir i, j, aux1 Como Entero
+	definir nombreAux, aux2 Como caracter
+	
+	Para i <- 0 Hasta habitacion - 1 Con Paso 1 Hacer
+		aux1 <- i
+		Para j <- i + 1 Hasta habitacion Con Paso 1 Hacer
+			Si reserva[j, 2] < reserva[aux1, 2] Entonces
+			aux1<- j
+			FinSi
+		FinPara
+		
+		Aux2 <- reserva[i,2]
+		reserva[i,2] <- reserva[aux1,2]
+		reserva[aux1,2] <- aux2
+	
+		nombreAux <- reserva[i,1]
+		reserva[i,1] <- reserva[aux1, 1]
+		reserva[aux1,1] <- nombreAux
+	FinPara
+	
+	Escribir "Las reservas han sido ordenadas por fecha de check-in."
+Para i <- 1 hasta habitacion Con Paso 1 Hacer
+	Escribir "Reserva a nombre de ",reserva[i, 1], ", con fecha de ingreso el ", reserva[i,2]
+FinPara
+
+
+
+
+FinSubProceso
+
 SubProceso MostrarListado(reserva, estado, habitacion) // Cambiar para segun cantidad de reservas
 	
 	Definir i, j Como Entero
 	
 	
-	Para i = 1 Hasta habitacion Con Paso 1 Hacer
+	Para i = 1 Hasta 9 Con Paso 1 Hacer
 		
-		Escribir reserva[0, 0], (": ") reserva[i, 0]
-		Escribir reserva[0, 1], (": ") reserva[i, 1]
-		Escribir reserva[0, 2], (": ") reserva[i, 2]
-		Escribir reserva[0, 3], (": ") reserva[i, 3]
-		Escribir reserva[0, 4], (": ") reserva[i, 4]
-		Escribir reserva[0, 5], (": ") reserva[i, 5]
+
 		Si estado[i] = Verdadero Entonces
-			
-			Escribir "Habitacion ocupada"
+			Escribir reserva[0, 0], (": "), i,  " -Habitacion ocupada-"
+			Escribir reserva[0, 1], (": ") reserva[i, 1]
+			Escribir reserva[0, 2], (": ") reserva[i, 2]
+			Escribir reserva[0, 3], (": ") reserva[i, 3]
+			Escribir reserva[0, 4], (": ") reserva[i, 4]
+			Escribir reserva[0, 5], (": ") reserva[i, 5]
+		SiNo
+			Escribir reserva[0, 0], (": "), i,  " -Habitacion disponible-"
 			
 		FinSi
 		Escribir ("-------------------------------------------------------------------------")
