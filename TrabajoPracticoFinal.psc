@@ -3,7 +3,7 @@ Proceso TrabajoPracticoFinal
 	Definir eleccion, habitacion Como Entero
 	Definir estado como logico
 	Definir reserva Como Caracter
-	Dimension reserva[10,6]//Matriz para guardar los datos de la reserva 
+	Dimension reserva[10,10]//Matriz para guardar los datos de la reserva 
 	//(10 SOLAMENTE POR COMODIDAD, CAMBIAR A UN VALOR MAS ALTO YA QUE SON LAS HABITACIONES)
 	//tmb hay q validar que al ingresar reservar no pueden ser mayor a 10(En este caso)
 	//Datos para cargar: 
@@ -12,9 +12,9 @@ Proceso TrabajoPracticoFinal
 	reserva[0,0] = ("Número de habitación")
 	reserva[0,1] = ("Nombre y apellido")
 	reserva[0,2] = ("Check In")
-	reserva[0,3] = ("Check Out")
-	reserva[0,4] = ("Cantidad de huéspedes")
-	reserva[0,5] = ("Tipo de habitación")
+	reserva[0,5] = ("Check Out")
+	reserva[0,8] = ("Cantidad de huéspedes")
+	reserva[0,9] = ("Tipo de habitación")
 	
 	habitacion = 0
 	
@@ -47,7 +47,7 @@ Proceso TrabajoPracticoFinal
 						OrdenarReservas(reserva, estado, habitacion)
 						
 				FinSegun
-	
+				
             4:
 				MostrarListado(reserva, estado, habitacion)
 				
@@ -67,7 +67,7 @@ FinProceso
 
 SubProceso CargarReserva(reserva, habitacion Por Referencia, estado)
 	
-	Definir nombre, check_in, check_out, tipo_habitacion Como Caracter
+	Definir nombre, dia_check_in, mes_check_in, ano_check_in, dia_check_out, mes_check_out, ano_check_out, tipo_habitacion Como Caracter
 	Definir cant_huespedes Como Entero
 	
 	habitacion = habitacion + 1
@@ -91,23 +91,37 @@ SubProceso CargarReserva(reserva, habitacion Por Referencia, estado)
 	Escribir "Ingrese el Nombre y Apellido del titular de la reserva"
 	Leer nombre
 	reserva[habitacion, 1] <- nombre
-	Escribir "Ingrese la fecha de entrada en formato DD/MM/AA"
-	Leer check_in
-	reserva[habitacion, 2] <- check_in
-	Escribir "Ingrese la fecha de salida en formato DD/MM/AA"
-	Leer check_out
-	reserva[habitacion, 3] <- check_out
-	reserva[habitacion, 4] <- ConvertirATexto(cant_huespedes)
-	reserva[habitacion, 5] <- tipo_habitacion
+	Escribir "Ingrese la fecha de entrada: "
+	Escribir "Dia (DD):"
+	Leer dia_check_in
+	Escribir "Mes (MM):"
+	Leer mes_check_in
+	Escribir "Año (AA):"
+	Leer ano_check_in
+	reserva[habitacion, 2] <- dia_check_in
+	reserva[habitacion, 3] <- mes_check_in
+	reserva[habitacion, 4] <- ano_check_in
+	Escribir "Ingrese la fecha de salida"
+	Escribir "Dia (DD):"
+	Leer dia_check_out
+	Escribir "Mes (MM):"
+	Leer mes_check_out
+	Escribir "Año (AA):"
+	Leer ano_check_out
+	reserva[habitacion, 5] <- dia_check_out
+	reserva[habitacion, 6] <- mes_check_out
+	reserva[habitacion, 7] <- ano_check_out
+	reserva[habitacion, 8] <- ConvertirATexto(cant_huespedes)
+	reserva[habitacion, 9] <- tipo_habitacion
 	
 	estado[habitacion] <- Verdadero
 	
 	Escribir ("Reserva cargada con éxito")
 	Escribir ("A nombre de: "), reserva[habitacion, 1]
-	Escribir ("CHECK-IN: "), reserva[habitacion, 2], (" a las 14:00 hs")
-	Escribir ("CHECK-OUT: "), reserva[habitacion, 3] (" a las 10:00 hs")
-	Escribir ("Cantidad de huéspedes: "), reserva[habitacion, 4]
-	Escribir ("Tipo de habitacion: "), reserva[habitacion, 5]
+	Escribir ("CHECK-IN: "), reserva[habitacion, 2], "/", reserva[habitacion, 3], "/", reserva[habitacion, 4], (" a las 14:00 hs")
+	Escribir ("CHECK-OUT: "), reserva[habitacion, 5], "/", reserva[habitacion, 6], "/", reserva[habitacion, 7], (" a las 10:00 hs")
+	Escribir ("Cantidad de huéspedes: "), reserva[habitacion, 8]
+	Escribir ("Tipo de habitacion: "), reserva[habitacion, 9]
 	Escribir ("--------------------")
 	
 FinSubProceso
@@ -125,9 +139,9 @@ SubProceso BuscarReserva(reserva, estado, habitacion Por Referencia)
 		Si reserva[i, 1] = nombre Entonces
 			Mostrar "Resultados de la búsqueda:"
 			Escribir "Cliente: ", reserva[i, 1]
-			Escribir "Fecha de check-in: ", reserva[i, 2]
-			Escribir "Fecha de check-out: ", reserva[i, 3]
-			Escribir "Tipo de habitación: ", reserva[i, 4]
+			Escribir "Fecha de check-in: ", reserva[i, 2], "/", reserva[i, 3], "/", reserva[i, 4]
+			Escribir "Fecha de check-out: ", reserva[i, 5],"/", reserva[i, 6], "/", reserva[i, 7] 
+			Escribir "Tipo de habitación: ", reserva[i, 8]
 			Escribir "-----------------------------"
 			validacion = Verdadero
 		FinSi
@@ -144,30 +158,38 @@ FinSubProceso
 SubProceso OrdenarReservas(reserva, estado, habitacion Por Referencia)
 	
 	Definir i, j, aux1 Como Entero
-	Definir nombreAux, aux2 Como caracter
-	Para i <- 1 Hasta habitacion - 1 Con Paso 1 Hacer //habitacion es un contador creo q no hace falta el -1
+	Definir nombreAux, aux2, aux3, aux4 Como caracter
+	Para i <- 1 Hasta habitacion Con Paso 1 Hacer //habitacion es un contador creo q no hace falta el -1
 		aux1 <- i
 		Para j <- i + 1 Hasta habitacion Con Paso 1 Hacer
-			Si reserva[j, 2] < reserva[aux1, 2] Entonces
-				aux1<- j
+			Si reserva[j, 3] < reserva[i, 3] o reserva[j, 3] = reserva[i, 3] Entonces
+				Si reserva[j, 2] < reserva[i, 2] Entonces
+					aux1 = j
+				FinSi
 			FinSi
+			
+			Aux2 = reserva[i, 2]
+			Aux3 = reserva[i, 3]
+			Aux4 = reserva[i, 4]
+			reserva[i, 2] = reserva[j, 2]
+			reserva[i, 3] = reserva[j, 3]
+			reserva[i, 4] = reserva[j, 4]
+			reserva[j, 2] = aux2
+			reserva[j, 3] = aux3
+			reserva[j, 4] = aux4
+			
+			nombreAux = reserva[i,1]
+			reserva[i,1] = reserva[j, 1]
+			reserva[j, 1] = nombreAux
+			
 		FinPara
-		
-		Aux2 <- reserva[i,2]
-		reserva[i,2] <- reserva[aux1,2]
-		reserva[aux1,2] <- aux2
-		
-		nombreAux <- reserva[i,1]
-		reserva[i,1] <- reserva[aux1, 1]
-		reserva[aux1,1] <- nombreAux
-		
 	FinPara
 	Escribir "Las reservas han sido ordenadas por fecha de check-in."
 	Para i <- 1 hasta habitacion Con Paso 1 Hacer
-		Escribir "Reserva a nombre de ",reserva[i, 1], ", con fecha de ingreso el ", reserva[i,2]
+		Escribir "Reserva a nombre de ",reserva[i, 1], ", con fecha de ingreso el ", reserva[i,2], "/", reserva[i, 3], "/", reserva[i, 4]
 	FinPara
 	Escribir ("-------------------------------------------------------------------------")
-
+	
 FinSubProceso
 
 SubProceso MostrarListado(reserva, estado, habitacion) // Cambiar para segun cantidad de reservas
@@ -177,16 +199,16 @@ SubProceso MostrarListado(reserva, estado, habitacion) // Cambiar para segun can
 		Si estado[i] = Verdadero Entonces
 			Escribir reserva[0, 0], (": "), i,  " -Habitacion ocupada-"
 			Escribir reserva[0, 1], (": ") reserva[i, 1]
-			Escribir reserva[0, 2], (": ") reserva[i, 2]
-			Escribir reserva[0, 3], (": ") reserva[i, 3]
-			Escribir reserva[0, 4], (": ") reserva[i, 4]
-			Escribir reserva[0, 5], (": ") reserva[i, 5]
+			Escribir reserva[0, 2], (": ") reserva[i, 2], ("/"), reserva[i, 3], ("/"), reserva[i, 4]
+			Escribir reserva[0, 5], (": ") reserva[i, 5], , ("/"), reserva[i, 6], ("/"), reserva[i, 7]
+			Escribir reserva[0, 8], (": ") reserva[i, 8]
+			Escribir reserva[0, 9], (": ") reserva[i, 9]
 		SiNo
 			Escribir reserva[0, 0], (": "), i,  " -Habitacion disponible-"
 		FinSi
 		Escribir ("-------------------------------------------------------------------------")
 	FinPara
-
+	
 FinSubProceso
 
 SubProceso OrdenarNombre(reserva, habitacion)
@@ -209,12 +231,11 @@ SubProceso OrdenarNombre(reserva, habitacion)
 	Para i = 1 Hasta habitacion Con Paso 1 Hacer
 		Escribir reserva[0, 0], (": ") reserva[i, 0]
 		Escribir reserva[0, 1], (": ") reserva[i, 1]
-		Escribir reserva[0, 2], (": ") reserva[i, 2]
-		Escribir reserva[0, 3], (": ") reserva[i, 3]
-		Escribir reserva[0, 4], (": ") reserva[i, 4]
-		Escribir reserva[0, 5], (": ") reserva[i, 5]
+		Escribir reserva[0, 2], (": ") reserva[i, 2], "/", reserva[i, 3], "/", reserva[i, 4]
+		Escribir reserva[0, 3], (": ") reserva[i, 5], "/", reserva[i, 6], "/", reserva[i, 7]
+		Escribir reserva[0, 4], (": ") reserva[i, 8]
+		Escribir reserva[0, 5], (": ") reserva[i, 9]
 		Escribir ("-------------------------------------------------------------------------")
 	FinPara
 	
 FinSubProceso
-
