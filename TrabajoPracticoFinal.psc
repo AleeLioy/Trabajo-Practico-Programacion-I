@@ -83,8 +83,8 @@ FinProceso
 
 SubProceso CargarReserva(reserva,reserva_aux,habitacion Por Referencia, estado, cantidad_habitaciones Por Referencia)
 	
-	Definir nombre, dia_check_in, mes_check_in, ano_check_in, dia_check_out, mes_check_out, ano_check_out, tipo_habitacion Como Caracter
-	Definir cant_huespedes Como Entero
+	Definir nombre, tipo_habitacion Como Caracter
+	Definir cant_huespedes, dia_check_in, mes_check_in, ano_check_in, dia_check_out, mes_check_out, ano_check_out Como Entero
 	
 	validacion = Falso
 	habitacion = habitacion + 1
@@ -115,34 +115,65 @@ SubProceso CargarReserva(reserva,reserva_aux,habitacion Por Referencia, estado, 
 		reserva_aux[habitacion, 1] <- nombre
 		Escribir "Ingrese la fecha de entrada: "
 		Escribir "Dia (DD):"
-		Leer dia_check_in
+		Repetir
+			Leer dia_check_in
+			Si dia_check_in < 0 o dia_check_in > 31 Entonces
+				Escribir "Número invalido. Por favor ingrese el día nuevamente."
+			FinSi
+		Mientras Que dia_check_in < 0 o dia_check_in > 31
 		Escribir "Mes (MM):"
-		Leer mes_check_in
+		Repetir
+			Leer mes_check_in
+			Si mes_check_in < 0 o mes_check_in > 12 Entonces
+				Escribir "Número invalido. Por favor ingrese el mes nuevamente."
+			FinSi
+		Mientras Que mes_check_in < 0 o mes_check_in > 12
 		Escribir "Año (AA):"
-		Leer ano_check_in
-		reserva[habitacion, 2] <- dia_check_in
-		reserva[habitacion, 3] <- mes_check_in
-		reserva[habitacion, 4] <- ano_check_in
+		Repetir
+			Leer ano_check_in
+			Si ano_check_in < 0 o ano_check_in > 31 Entonces
+				Escribir "Número invalido. Por favor ingrese el año nuevamente."
+			FinSi
+		Mientras Que ano_check_in < 23 o ano_check_in > 99
+		
+		reserva[habitacion, 2] <- ConvertirATexto(dia_check_in)
+		reserva[habitacion, 3] <- ConvertirATexto(mes_check_in)
+		reserva[habitacion, 4] <- ConvertirATexto(ano_check_in)
 		//pasar todo esto a subproceso
-		reserva_aux[habitacion, 2] <- dia_check_in
-		reserva_aux[habitacion, 3] <- mes_check_in
-		reserva_aux[habitacion, 4] <- ano_check_in
+		reserva_aux[habitacion, 2] <- ConvertirATexto(dia_check_in)
+		reserva_aux[habitacion, 3] <- ConvertirATexto(mes_check_in)
+		reserva_aux[habitacion, 4] <- ConvertirATexto(ano_check_in)
 		Escribir "Ingrese la fecha de salida"
 		Escribir "Dia (DD):"
-		Leer dia_check_out
+		Repetir
+			Leer dia_check_out
+			Si dia_check_out < 0 o dia_check_out > 31 Entonces
+				Escribir "Número invalido. Por favor ingrese el día nuevamente."
+			FinSi
+		Mientras Que dia_check_out < 0 o dia_check_out > 31
 		Escribir "Mes (MM):"
-		Leer mes_check_out
+		Repetir
+			Leer mes_check_out
+			Si mes_check_out < 0 o mes_check_out > 12 Entonces
+				Escribir "Número invalido. Por favor ingrese el mes nuevamente."
+			FinSi
+		Mientras Que mes_check_out < 0 o mes_check_out > 12
 		Escribir "Año (AA):"
-		Leer ano_check_out
-		reserva[habitacion, 5] <- dia_check_out
-		reserva[habitacion, 6] <- mes_check_out
-		reserva[habitacion, 7] <- ano_check_out
+		Repetir
+			Leer ano_check_out
+			Si ano_check_out < 0 o ano_check_out > 31 Entonces
+				Escribir "Número invalido. Por favor ingrese el año nuevamente."
+			FinSi
+		Mientras Que ano_check_out < 23 o ano_check_out > 99
+		reserva[habitacion, 5] <- ConvertirATexto(dia_check_out)
+		reserva[habitacion, 6] <- ConvertirATexto(mes_check_out)
+		reserva[habitacion, 7] <- ConvertirATexto(ano_check_out)
 		reserva[habitacion, 8] <- ConvertirATexto(cant_huespedes)
 		reserva[habitacion, 9] <- tipo_habitacion
 		//pasar todo esto a subproceso
-		reserva_aux[habitacion, 5] <- dia_check_out
-		reserva_aux[habitacion, 6] <- mes_check_out
-		reserva_aux[habitacion, 7] <- ano_check_out
+		reserva_aux[habitacion, 5] <- ConvertirATexto(dia_check_out)
+		reserva_aux[habitacion, 6] <- ConvertirATexto(mes_check_out)
+		reserva_aux[habitacion, 7] <- ConvertirATexto(ano_check_out)
 		reserva_aux[habitacion, 8] <- ConvertirATexto(cant_huespedes)
 		reserva_aux[habitacion, 9] <- tipo_habitacion
 		
