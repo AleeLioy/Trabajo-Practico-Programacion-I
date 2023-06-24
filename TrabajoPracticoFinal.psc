@@ -1,8 +1,8 @@
 Proceso TrabajoPracticoFinal
 	
-	Definir eleccion, habitacion, option, cantidad_habitaciones Como Entero
+	Definir habitacion, option, cantidad_habitaciones Como Entero
 	Definir estado, validacion Como Logico
-	Definir reserva, reserva_aux Como Caracter
+	Definir eleccion, reserva, reserva_aux Como Caracter
 	cantidad_habitaciones = 10
 	Dimension reserva[10,10]
 	Dimension reserva_aux[10,10]
@@ -22,7 +22,7 @@ Proceso TrabajoPracticoFinal
 	
 	habitacion = 0
 	
-	Mientras eleccion <> 5 Hacer
+	Mientras eleccion <> Mayusculas("Salir") Hacer
 		Escribir "***** SISTEMA DE GESTIÓN DE RESERVAS *****"
         Escribir "1. Ingresar una nueva reserva"
         Escribir "2. Buscar reserva"
@@ -31,20 +31,21 @@ Proceso TrabajoPracticoFinal
         Escribir "5. Salir"
         Escribir Sin Saltar "Seleccione una opción: "
 		Leer eleccion
+		eleccion = Mayusculas(eleccion)
 		
 		Segun eleccion Hacer
-            1:
+            "1":
 				validacion = Falso
-				CargarReserva(reserva,reserva_aux,habitacion, estado, cantidad_habitaciones)
+				CargarReserva(reserva, reserva_aux, habitacion, estado, cantidad_habitaciones)
 				
-            2:
+            "2":
 				Si validacion = Verdadero Entonces
 					Escribir ("No hay reservas ingresadas. Primero debe ingresar una reserva")
 					Escribir "---------------------------------------------------------------"
 				SiNo
 					BuscarReserva(reserva, estado, habitacion)
 				FinSi
-            3:
+            "3":
 				Si validacion = Verdadero Entonces
 					Escribir ("No hay reservas ingresadas. Primero debe ingresar una reserva")
 					Escribir "---------------------------------------------------------------"
@@ -62,7 +63,7 @@ Proceso TrabajoPracticoFinal
 					FinSegun
 				FinSi
 				
-            4:
+            "4":
 				Si validacion = Verdadero Entonces
 					Escribir ("No hay reservas ingresadas. Primero debe ingresar una reserva")
 					Escribir "---------------------------------------------------------------"
@@ -70,7 +71,7 @@ Proceso TrabajoPracticoFinal
 					MostrarListado(reserva, estado, habitacion)
 				FinSi
 				
-            5:
+            "SALIR":
                 Escribir "Saliendo del sistema..."
             De Otro Modo:
                 Escribir "Opción inválida. Intente nuevamente."
