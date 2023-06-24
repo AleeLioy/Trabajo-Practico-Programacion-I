@@ -28,7 +28,7 @@ Proceso TrabajoPracticoFinal
         Escribir "2. Buscar reserva"
         Escribir "3. Ordenar reservas"
         Escribir "4. Mostrar listado de reservas"
-        Escribir "5. Salir"
+        Escribir "Si desea salir ingrese la palabra: Salir"
         Escribir Sin Saltar "Seleccione una opción: "
 		Leer eleccion
 		eleccion = Mayusculas(eleccion)
@@ -119,21 +119,24 @@ SubProceso CargarReserva(reserva,reserva_aux,habitacion Por Referencia, estado, 
 		Repetir
 			Leer dia_check_in
 			Si dia_check_in < 0 o dia_check_in > 31 Entonces
-				Escribir "Número invalido. Por favor ingrese el día nuevamente."
+				Escribir "Número inválido. Por favor ingrese el día nuevamente."
 			FinSi
 		Mientras Que dia_check_in < 0 o dia_check_in > 31
 		Escribir "Mes (MM):"
 		Repetir
 			Leer mes_check_in
 			Si mes_check_in < 0 o mes_check_in > 12 Entonces
-				Escribir "Número invalido. Por favor ingrese el mes nuevamente."
+				Escribir "Número inválido. Por favor ingrese el mes nuevamente."
 			FinSi
 		Mientras Que mes_check_in < 0 o mes_check_in > 12
 		Escribir "Año (AA):"
 		Repetir
 			Leer ano_check_in
-			Si ano_check_in < 0 o ano_check_in > 31 Entonces
-				Escribir "Número invalido. Por favor ingrese el año nuevamente."
+			Si ano_check_in < 23 Entonces
+				Escribir "No puede ingresar un año menor al actual. Por favor ingrese el año nuevamente."
+			FinSi
+			Si ano_check_in > 99 Entonces
+				Escribir "Número inválido. Por favor ingrese el año nuevamente."
 			FinSi
 		Mientras Que ano_check_in < 23 o ano_check_in > 99
 		
@@ -149,21 +152,24 @@ SubProceso CargarReserva(reserva,reserva_aux,habitacion Por Referencia, estado, 
 		Repetir
 			Leer dia_check_out
 			Si dia_check_out < 0 o dia_check_out > 31 Entonces
-				Escribir "Número invalido. Por favor ingrese el día nuevamente."
+				Escribir "Número inválido. Por favor ingrese el día nuevamente."
 			FinSi
 		Mientras Que dia_check_out < 0 o dia_check_out > 31
 		Escribir "Mes (MM):"
 		Repetir
 			Leer mes_check_out
 			Si mes_check_out < 0 o mes_check_out > 12 Entonces
-				Escribir "Número invalido. Por favor ingrese el mes nuevamente."
+				Escribir "Número inválido. Por favor ingrese el mes nuevamente."
 			FinSi
 		Mientras Que mes_check_out < 0 o mes_check_out > 12
 		Escribir "Año (AA):"
 		Repetir
 			Leer ano_check_out
-			Si ano_check_out < 0 o ano_check_out > 31 Entonces
-				Escribir "Número invalido. Por favor ingrese el año nuevamente."
+			Si ano_check_out < 23 Entonces
+				Escribir "No puede ingresar un año menor al actual. Por favor ingrese el año nuevamente."
+			FinSi
+			Si ano_check_out > 99 Entonces
+				Escribir "Número inválido. Por favor ingrese el año nuevamente."
 			FinSi
 		Mientras Que ano_check_out < 23 o ano_check_out > 99
 		reserva[habitacion, 5] <- ConvertirATexto(dia_check_out)
