@@ -3,11 +3,11 @@ Proceso TrabajoPracticoFinal
 	Definir habitacion, option, cantidad_habitaciones Como Entero
 	Definir estado, validacion Como Logico
 	Definir eleccion, reserva, reserva_aux, reserva_aux2 Como Caracter
-	cantidad_habitaciones = 10
-	Dimension reserva[10,10]
-	Dimension reserva_aux[10,10]
-	Dimension reserva_aux2[10,10]
-	Dimension estado[10]
+	cantidad_habitaciones = 51
+	Dimension reserva[51,10]
+	Dimension reserva_aux[51,10]
+	Dimension reserva_aux2[51,10]
+	Dimension estado[51]
 	validacion = Verdadero
 	
 	reserva[0,0] = ("Número de habitación")
@@ -83,7 +83,7 @@ Proceso TrabajoPracticoFinal
 FinProceso
 
 
-SubProceso CargarReserva(reserva,reserva_aux, reserva_aux2, habitacion Por Referencia, estado, cantidad_habitaciones Por Referencia)
+SubProceso CargarReserva(reserva, reserva_aux, reserva_aux2, habitacion Por Referencia, estado, cantidad_habitaciones Por Referencia)
 	
 	Definir nombre, tipo_habitacion Como Caracter
 	Definir cant_huespedes, dia_check_in, mes_check_in, ano_check_in, dia_check_out, mes_check_out, ano_check_out Como Entero
@@ -114,8 +114,7 @@ SubProceso CargarReserva(reserva,reserva_aux, reserva_aux2, habitacion Por Refer
 		Escribir "Ingrese el Nombre y Apellido del titular de la reserva"
 		Leer nombre
 		reserva[habitacion, 1] <- nombre
-		reserva_aux[habitacion, 1] <- nombre
-		reserva_aux2[habitacion, 1] <- nombre
+		
 		Escribir "Ingrese la fecha de entrada: "
 		Escribir "Dia (DD):"
 		Repetir
@@ -145,14 +144,6 @@ SubProceso CargarReserva(reserva,reserva_aux, reserva_aux2, habitacion Por Refer
 		reserva[habitacion, 2] <- ConvertirATexto(dia_check_in)
 		reserva[habitacion, 3] <- ConvertirATexto(mes_check_in)
 		reserva[habitacion, 4] <- ConvertirATexto(ano_check_in)
-		
-		reserva_aux[habitacion, 2] <- ConvertirATexto(dia_check_in)
-		reserva_aux[habitacion, 3] <- ConvertirATexto(mes_check_in)
-		reserva_aux[habitacion, 4] <- ConvertirATexto(ano_check_in)
-		
-		reserva_aux2[habitacion, 2] <- ConvertirATexto(dia_check_in)
-		reserva_aux2[habitacion, 3] <- ConvertirATexto(mes_check_in)
-		reserva_aux2[habitacion, 4] <- ConvertirATexto(ano_check_in)
 		
 		Escribir "Ingrese la fecha de salida"
 		Escribir "Dia (DD):"
@@ -185,18 +176,6 @@ SubProceso CargarReserva(reserva,reserva_aux, reserva_aux2, habitacion Por Refer
 		reserva[habitacion, 8] <- ConvertirATexto(cant_huespedes)
 		reserva[habitacion, 9] <- tipo_habitacion
 		
-		reserva_aux[habitacion, 5] <- ConvertirATexto(dia_check_out)
-		reserva_aux[habitacion, 6] <- ConvertirATexto(mes_check_out)
-		reserva_aux[habitacion, 7] <- ConvertirATexto(ano_check_out)
-		reserva_aux[habitacion, 8] <- ConvertirATexto(cant_huespedes)
-		reserva_aux[habitacion, 9] <- tipo_habitacion
-		
-		reserva_aux2[habitacion, 5] <- ConvertirATexto(dia_check_out)
-		reserva_aux2[habitacion, 6] <- ConvertirATexto(mes_check_out)
-		reserva_aux2[habitacion, 7] <- ConvertirATexto(ano_check_out)
-		reserva_aux2[habitacion, 8] <- ConvertirATexto(cant_huespedes)
-		reserva_aux2[habitacion, 9] <- tipo_habitacion
-		
 		estado[habitacion] <- Verdadero
 		cantidad_habitaciones = cantidad_habitaciones - 1
 		
@@ -207,6 +186,7 @@ SubProceso CargarReserva(reserva,reserva_aux, reserva_aux2, habitacion Por Refer
 		Escribir ("Cantidad de huéspedes: "), reserva[habitacion, 8]
 		Escribir ("Tipo de habitación: "), reserva[habitacion, 9]
 		Escribir ("--------------------")
+		cargaAux(reserva, reserva_aux, reserva_aux2, habitacion)
 	FinSi
 	
 	
@@ -261,15 +241,15 @@ SubProceso OrdenarReservas(reserva, estado, habitacion Por Referencia)
 			reserva[i,1] = reserva[aux1,1]
 			reserva[aux1,1] = nombreAux
 			
-			Aux2 = reserva[i,2]
+			aux2 = reserva[i,2]
 			reserva[i,2] = reserva[aux1,2]
 			reserva[aux1,2] = aux2
 			
-			Aux3 = reserva[i,3]
+			aux3 = reserva[i,3]
 			reserva[i,3] = reserva[aux1,3]
 			reserva[aux1,3] = aux3
 			
-			Aux4 = reserva[i,4]
+			aux4 = reserva[i,4]
 			reserva[i,4] = reserva[aux1,4]
 			reserva[aux1,4] = aux4
 			
@@ -288,7 +268,7 @@ FinSubProceso
 SubProceso MostrarListado(reserva, estado, habitacion Por Referencia)
 	
 	Definir i, j Como Entero	
-	Para i = 1 Hasta habitacion Con Paso 1 Hacer
+	Para i = 1 Hasta 50 Con Paso 1 Hacer
 		Si estado[i] = Verdadero Entonces
 			Escribir reserva[0, 0], (": "), i,  " -Habitación ocupada-"
 			Escribir reserva[0, 1], (": ") reserva[i, 1]
@@ -305,29 +285,55 @@ SubProceso MostrarListado(reserva, estado, habitacion Por Referencia)
 FinSubProceso
 
 SubProceso OrdenarNombre(reserva_aux, habitacion) 
-	Definir i,j Como Entero
-	Definir nombre_aux, hab_aux, huesp_aux Como Caracter
-	Para i = 1 Hasta habitacion Con Paso 1 Hacer
+	
+    Definir i,j Como Entero
+    Definir nombre_aux, hab_aux, huesp_aux Como Caracter
+    Para i = 1 Hasta habitacion Con Paso 1 Hacer
         Para j = i+1 Hasta habitacion Con Paso 1 Hacer
             Si reserva_aux[i,1] > reserva_aux[j,1] Entonces
-				nombre_aux = reserva_aux[i,1]
-				reserva_aux[i,1] = reserva_aux[j,1]
-				reserva_aux[j,1] = nombre_aux
-				hab_aux = reserva_aux[i,0]
-				reserva_aux[i,0] = reserva_aux[j,0]
-				reserva_aux[j,0] = hab_aux
-				huesp_aux = reserva_aux[i,8]
-				reserva_aux[i,8] = reserva_aux[j,8]
-				reserva_aux[j,8] = huesp_aux
-				
+                nombre_aux = reserva_aux[i,1]
+                reserva_aux[i,1] = reserva_aux[j,1]
+                reserva_aux[j,1] = nombre_aux
+                hab_aux = reserva_aux[i,0]
+                reserva_aux[i,0] = reserva_aux[j,0]
+                reserva_aux[j,0] = hab_aux
+                huesp_aux = reserva_aux[i,8]
+                reserva_aux[i,8] = reserva_aux[j,8]
+                reserva_aux[j,8] = huesp_aux
             FinSi
         FinPara
     FinPara
-	Escribir ("Orden alfabético por Nombre de los huéspedes: ") 
+    Escribir ("Orden alfabético por Nombre de los huéspedes: ") 
 	
-	Para i <- 1 hasta habitacion Con Paso 1 Hacer
-		Escribir "Reserva a nombre de ",reserva_aux[i,1], ", número de habitación ", reserva_aux[i,0], ", cantidad de huéspedes ", reserva_aux[i,8]
-		Escribir ("-------------------------------------------------------------------------")
-	FinPara
+    Para i <- 1 hasta habitacion Con Paso 1 Hacer
+        Escribir "Reserva a nombre de ",reserva_aux[i,1], ", número de habitación ", reserva_aux[i,0], ", cantidad de huéspedes ", reserva_aux[i,8]
+        Escribir ("-------------------------------------------------------------------------")
+    FinPara
 	
 FinSubProceso
+
+SubProceso cargaAux(reserva, reserva_aux, reserva_aux2, habitacion)
+	
+	reserva_aux[habitacion, 1] <- reserva[habitacion, 1]
+	reserva_aux[habitacion, 2] <- reserva[habitacion, 2]
+	reserva_aux[habitacion, 3] <- reserva[habitacion, 3]
+	reserva_aux[habitacion, 4] <- reserva[habitacion, 4]
+	reserva_aux[habitacion, 5] <- reserva[habitacion, 5]
+	reserva_aux[habitacion, 6] <- reserva[habitacion, 6]
+	reserva_aux[habitacion, 7] <- reserva[habitacion, 7]
+	reserva_aux[habitacion, 8] <- reserva[habitacion, 8]
+	reserva_aux[habitacion, 9] <- reserva[habitacion, 9]
+	
+	reserva_aux2[habitacion, 1] <- reserva[habitacion, 1]
+	reserva_aux2[habitacion, 2] <- reserva[habitacion, 2]
+	reserva_aux2[habitacion, 3] <- reserva[habitacion, 3]
+	reserva_aux2[habitacion, 4] <- reserva[habitacion, 4]
+	reserva_aux2[habitacion, 5] <- reserva[habitacion, 5]
+	reserva_aux2[habitacion, 6] <- reserva[habitacion, 6]
+	reserva_aux2[habitacion, 7] <- reserva[habitacion, 7]
+	reserva_aux2[habitacion, 8] <- reserva[habitacion, 8]
+	reserva_aux2[habitacion, 9] <- reserva[habitacion, 9]
+	
+FinSubProceso
+
+
